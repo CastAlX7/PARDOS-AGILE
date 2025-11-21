@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🍗 Pardos Chicken - Sistema de Gestión</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/styles.css">
+</head>
+<body>
+    <!-- TOAST CONTAINER -->
+    <div class="toast-container" id="toast-container"></div>
+
+    <!-- ===== LOGIN VIEW ===== -->
+    <div id="login-view">
+        <div class="login-container">
+            <div class="login-banner">
+                <div style="font-size: 80px;">🍗</div>
+                <h1>PARDOS CHICKEN</h1>
+                <p>Sistema Integral de Gestión de Restaurante</p>
+            </div>
+            <div class="login-form">
+                <h2><i class="fas fa-user-circle"></i> Iniciar Sesión</h2>
+                <div class="form-group">
+                    <label><i class="fas fa-user"></i> Usuario</label>
+                    <input type="text" id="login-user" placeholder="Ingrese su usuario">
+                </div>
+                <div class="form-group">
+                    <label><i class="fas fa-lock"></i> Contraseña</label>
+                    <input type="password" id="login-pass" placeholder="Ingrese su contraseña">
+                </div>
+                <button class="btn btn-primary btn-block" onclick="login()">
+                    <i class="fas fa-sign-in-alt"></i> Ingresar al Sistema
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== APP VIEW ===== -->
+    <div id="app-view" class="hidden">
+        <div class="app-container">
+            <!-- SIDEBAR -->
+            <nav class="sidebar">
+                <div class="sidebar-header">
+                    <h1><i class="fas fa-drumstick-bite"></i> PARDOS</h1>
+                    <div class="user-badge" id="user-badge">
+                        <i class="fas fa-user"></i> <span id="user-name">Usuario</span>
+                    </div>
+                </div>
+                <div class="sidebar-menu" id="sidebar-menu"></div>
+                <div class="sidebar-footer">
+                    <button class="btn btn-logout" onclick="logout()">
+                        <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
+                    </button>
+                </div>
+            </nav>
+
+            <!-- MAIN CONTENT -->
+            <main class="main-content">
+                <header class="header">
+                    <h2 id="page-title"><i class="fas fa-home"></i> Dashboard</h2>
+                    <div class="header-actions" id="header-actions"></div>
+                </header>
+                <div class="content-area" id="content-area">
+                    <div class="card text-center" style="padding: 60px;">
+                        <i class="fas fa-home" style="font-size: 4em; color: var(--primary);"></i>
+                        <h3 style="margin-top: 20px;">Bienvenido al Sistema</h3>
+                        <p style="color: #666;">Seleccione una opción del menú para comenzar</p>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- ===== MODAL GENÉRICO ===== -->
+    <div class="modal-overlay" id="modal-overlay">
+        <div class="modal" id="modal">
+            <div class="modal-header">
+                <h3 id="modal-title">Modal</h3>
+                <button class="modal-close" onclick="closeModal()">&times;</button>
+            </div>
+            <div class="modal-body" id="modal-body"></div>
+            <div class="modal-footer" id="modal-footer"></div>
+        </div>
+    </div>
+
+    <!-- ===== MODAL CONFIRMACIÓN ===== -->
+    <div class="modal-overlay" id="confirm-overlay">
+        <div class="modal" style="max-width: 400px;">
+            <div class="modal-header">
+                <h3 id="confirm-title">Confirmar</h3>
+                <button class="modal-close" onclick="closeConfirm()">&times;</button>
+            </div>
+            <div class="modal-body text-center" style="padding: 30px;">
+                <i id="confirm-icon" class="fas fa-question-circle" style="font-size: 4em; color: var(--warning); margin-bottom: 20px;"></i>
+                <p id="confirm-message" style="font-size: 1.1em;">¿Está seguro?</p>
+            </div>
+            <div class="modal-footer" style="justify-content: center;">
+                <button class="btn btn-secondary" onclick="closeConfirm()"><i class="fas fa-times"></i> Cancelar</button>
+                <button class="btn btn-primary" id="confirm-btn"><i class="fas fa-check"></i> Confirmar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- SCRIPTS -->
+    <script src="/static/js/main.js"></script>
+    <script src="/static/js/anfitriona.js"></script>
+    <script src="/static/js/lider.js"></script>
+    <script src="/static/js/anfitrion_servicio.js"></script>
+    <script src="/static/js/maestro_brasa.js"></script>
+    <script src="/static/js/cajera.js"></script>
+</body>
+</html>

@@ -1,0 +1,21 @@
+=== CREDENCIALES DE ACCESO - PARDOS CHICKEN ===
+
+Anfitriona de Bienvenida:
+  Usuario: anfitriona
+  Contraseña: 123
+
+Líder de Restaurante:
+  Usuario: lider
+  Contraseña: 123
+
+Anfitrión de Servicio (Mozo):
+  Usuario: anfitrion
+  Contraseña: 123
+
+Maestro Brasa (Cocinero):
+  Usuario: maestro
+  Contraseña: 123
+
+Cajera:
+  Usuario: cajera
+  Contraseña: 123
