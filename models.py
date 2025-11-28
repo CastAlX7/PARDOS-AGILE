@@ -66,9 +66,13 @@ class Comanda(db.Model):
     
     id_mesa = db.Column('idMesa', db.Integer, db.ForeignKey('Mesa.idMesa'))
     
+    id_reserva = db.Column('idReserva', db.Integer, db.ForeignKey('Reserva.idReserva'), nullable=True)
+    
     mesa = db.relationship('Mesa', back_populates='comandas')
     detalles = db.relationship('DetalleComanda', back_populates='comanda', cascade="all, delete-orphan")
     cuenta = db.relationship('Cuenta', back_populates='comanda', uselist=False)
+    
+    reserva = db.relationship('Reserva', backref='comandas_asociadas')
 
 class DetalleComanda(db.Model):
     __tablename__ = 'DetalleComanda'

@@ -113,7 +113,22 @@ body {
     border-radius: 25px; font-size: 0.85em; display: inline-block;
 }
 .sidebar-menu { flex: 1; padding: 20px 15px; overflow-y: auto; }
-.menu-section { margin-bottom: 20px; }
+
+/* ===== SECCIONES DE MENÚ ARREGLADAS ===== */
+.menu-section { 
+    margin-bottom: 15px; 
+}
+.menu-section > div:first-child {
+    padding: 10px 15px;
+    font-weight: 700;
+    color: var(--primary);
+    font-size: 0.75em;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-bottom: 2px solid rgba(196, 30, 58, 0.2);
+    margin-bottom: 8px;
+    background: rgba(196, 30, 58, 0.05);
+}
 .menu-btn {
     width: 100%; padding: 14px 18px; background: transparent; border: none; color: #ccc;
     text-align: left; border-radius: 10px; cursor: pointer; transition: all 0.3s;
@@ -131,6 +146,28 @@ body {
 .btn-logout { 
     width: 100%; background: rgba(255,255,255,0.1); color: #ccc; 
     border: 1px solid rgba(255,255,255,0.2); 
+}
+
+/* ==================== SECCIONES DE MENÚ MEJORADAS ===== */
+.menu-section:first-child div:first-child {
+    margin-top: 0;
+}
+
+.menu-section {
+    margin-bottom: 15px;
+}
+
+.menu-section div[style*="border-bottom"] {
+    display: block !important;
+    margin: 0 !important;
+    padding: 10px 15px !important;
+    font-size: 0.75em !important;
+    font-weight: 700 !important;
+    color: var(--primary) !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.5px !important;
+    border-bottom: 2px solid rgba(196, 30, 58, 0.2) !important;
+    margin-bottom: 8px !important;
 }
 .btn-logout:hover { background: var(--danger); color: white; border-color: var(--danger); }
 
@@ -346,3 +383,25 @@ tr:hover { background: #FFF8F0; }
 .text-center { text-align: center; }
 .mt-3 { margin-top: 15px; }
 .mb-3 { margin-bottom: 15px; }
+
+/* ===== CORRECCIÓN SECCIONES MENÚ ===== */
+.menu-section div[style*="border-bottom"] {
+    background: rgba(196, 30, 58, 0.05) !important;
+}
+
+.menu-btn {
+    font-size: 0.9em !important;
+}
+
+/* ===== CORRECCIÓN FINAL TÍTULOS DE SECCIÓN ===== */
+.menu-section-title {
+    padding: 10px 15px;
+    font-weight: 700;
+    color: var(--primary);
+    font-size: 0.75em;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-bottom: 2px solid rgba(196, 30, 58, 0.2);
+    margin-bottom: 8px;
+    background: rgba(196, 30, 58, 0.05);
+}
