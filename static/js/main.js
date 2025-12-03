@@ -85,7 +85,7 @@ async function login() {
             document.getElementById('app-view').classList.remove('hidden');
             document.getElementById('app-view').style.display = 'block';
             buildMenu();
-            showToast(`Bienvenido, ${data.username}!`, 'success');
+            showToast(`¡Bienvenido, ${data.username}!`, 'success');
         }
     } catch (e) {}
 }
@@ -102,69 +102,115 @@ function buildMenu() {
     const menu = document.getElementById('sidebar-menu');
     menu.innerHTML = '';
     
-    const menuItems = [
-        { 
-            roles: ['Anfitriona de Bienvenida'], 
-            items: [
-                { icon: 'fa-calendar-check', label: 'Disponibilidad', action: renderDisponibilidad, codes: 'HUO01, HUO02' },
-                { icon: 'fa-plus-circle', label: 'Nueva Reserva', action: renderNuevaReserva, codes: 'HUO03, HUO05' },
-                { icon: 'fa-edit', label: 'Modificar Reserva', action: renderModificarReserva, codes: 'HUO04' },
-                { icon: 'fa-utensils', label: 'Tomar Pedido', action: renderAnfitrionaTomaPedido, codes: 'Extra' }
-            ]
-        },
-        { 
-            roles: ['Líder de Restaurante'], 
-            items: [
-                { icon: 'fa-list-alt', label: 'Gestión Reservas', action: renderGestionReservas, codes: 'HUO06, HUO07, HUO08' },
-                { icon: 'fa-cog', label: 'Administración', action: renderAdmin, codes: 'Admin' }
-            ]
-        },
-        { 
-            roles: ['Anfitrión de Servicio'], 
-            items: [
-                { icon: 'fa-utensils', label: 'Tomar Pedido', action: renderTomarPedido, codes: 'HUO09' },
-                { icon: 'fa-edit', label: 'Modificar Comanda', action: renderModificarComanda, codes: 'HUO10' },
-                { icon: 'fa-fire', label: 'Ver Cocina', action: renderCocina, codes: 'HUO11' }
-            ]
-        },
-        { 
-            roles: ['Maestro Brasa'], 
-            items: [
-                { icon: 'fa-fire-alt', label: 'Cocina', action: renderCocina, codes: 'HUO11' }
-            ]
-        },
-        { 
-            roles: ['Cajera'], 
-            items: [
-                { icon: 'fa-cash-register', label: 'Caja / Pagos', action: renderCaja, codes: 'HUO12, HUO13, HUO14' }
-            ]
-        }
-    ];
+    const menuConfig = {
+        'Anfitriona de Bienvenida': [
+            { 
+                section: '📅 RESERVAS', 
+                items: [
+                    { icon: 'fa-calendar-check', label: 'Disponibilidad', action: renderDisponibilidad, codes: 'HUO01, HUO02' },
+                    { icon: 'fa-plus-circle', label: 'Nueva Reserva', action: renderNuevaReserva, codes: 'HUO03, HUO05' },
+                    { icon: 'fa-edit', label: 'Modificar Reserva', action: renderModificarReserva, codes: 'HUO04' },
+                    { icon: 'fa-list', label: 'Consultar Reservas', action: renderListarReservas, codes: 'HUO06' }
+                ]
+            }
+        ],
+        'Anfitrión de Servicio': [
+            { 
+                section: '🍽️ GESTIÓN DE SERVICIO', 
+                items: [
+                    { icon: 'fa-utensils', label: 'Tomar Pedido / Mesas', action: renderTomarPedido, codes: 'HUO09' },
+                    { icon: 'fa-edit', label: 'Modificar Pedidos', action: renderModificarComanda, codes: 'HUO10' },
+                    { icon: 'fa-calendar-check', label: 'Modificar Pedidos Reserva', action: renderModificarPedidosReservas, codes: 'HUO10' }
+                ]
+            }
+        ],
+        'Maestro Brasa': [ // ✅ MENÚ COCINA SIMPLIFICADO
+            { 
+                section: '🔥 COCINA', 
+                items: [
+                    { icon: 'fa-fire-alt', label: 'Pedidos del Mozo', action: renderCocina, codes: 'HUO11' },
+                    { icon: 'fa-calendar-check', label: 'Pedidos de Reservas', action: renderPedidosReservas, codes: 'HUO11' }
+                ]
+            }
+        ],
+        'Cajera': [
+            { 
+                section: '💰 CAJA Y PAGOS', 
+                items: [
+                    { icon: 'fa-cash-register', label: 'Procesar Pagos', action: renderCaja, codes: 'HUO12-HUO14' },
+                    { icon: 'fa-clipboard-check', label: 'Confirmar Reservas', action: renderConfirmarReservas, codes: 'HUO05' }
+                ]
+            }
+        ],
+        'Líder de Restaurante': [
+            { 
+                section: '📅 GESTIÓN DE RESERVAS', 
+                items: [
+                    { icon: 'fa-list-alt', label: 'Gestionar Reservas', action: renderGestionReservas, codes: 'HUO06, HUO07, HUO08' },
+                    { icon: 'fa-chair', label: 'Disponibilidad Mesas', action: renderMesasConPedidosLider, codes: 'HUO01, HUO02' }
+                ]
+            },
+            { 
+                section: '🍽️ SUPERVISIÓN DE PEDIDOS', 
+                items: [
+                    { icon: 'fa-edit', label: 'Modificar Comandas', action: renderModificarComandaLider, codes: 'HUO10' },
+                    { icon: 'fa-list-alt', label: 'Gestionar Pedidos', action: renderGestionPedidosLider, codes: 'Admin' } 
+                ]
+            },
+            { 
+                section: '🔥 SUPERVISIÓN COCINA', 
+                items: [
+                    { icon: 'fa-fire-alt', label: 'Pedidos del Mozo', action: renderPedidosMozoLider, codes: 'HUO11' },
+                    { icon: 'fa-calendar-check', label: 'Pedidos de Reservas', action: renderPedidosReservaLider, codes: 'HUO11' }
+                ]
+            },
+            { 
+                section: '💰 SUPERVISIÓN CAJA', 
+                items: [
+                    { icon: 'fa-cash-register', label: 'Procesar Pagos', action: renderCaja, codes: 'HUO12-HUO14' },
+                    { icon: 'fa-clipboard-check', label: 'Confirmar Reservas', action: renderConfirmarReservas, codes: 'HUO05' }
+                ]
+            },
+            { 
+                section: '📊 REPORTES Y ADMIN', 
+                items: [
+                    { icon: 'fa-chart-bar', label: 'Informes y Ventas', action: renderInformesLider, codes: 'Admin' },
+                    { icon: 'fa-cog', label: 'Administración y Sistema', action: renderAdmin, codes: 'Admin' }
+                ]
+            }
+        ]
+    };
 
-    menuItems.forEach(section => {
-        if (section.roles.includes(CURRENT_ROLE)) {
-            const sectionDiv = document.createElement('div');
-            sectionDiv.className = 'menu-section';
-            section.items.forEach(item => {
-                const btn = document.createElement('button');
-                btn.className = 'menu-btn';
-                btn.innerHTML = `<i class="fas ${item.icon}"></i><span>${item.label}</span>`;
-                btn.title = item.codes;
-                btn.onclick = () => {
-                    document.querySelectorAll('.menu-btn').forEach(b => b.classList.remove('active'));
-                    btn.classList.add('active');
-                    item.action();
-                };
-                sectionDiv.appendChild(btn);
-            });
-            menu.appendChild(sectionDiv);
-        }
+    const sections = menuConfig[CURRENT_ROLE] || [];
+    sections.forEach(sectionGroup => {
+        const sectionDiv = document.createElement('div');
+        sectionDiv.className = 'menu-section';
+        
+        const titleDiv = document.createElement('div');
+        titleDiv.className = 'menu-section-title';
+        titleDiv.textContent = sectionGroup.section;
+        sectionDiv.appendChild(titleDiv);
+        
+        sectionGroup.items.forEach(item => {
+            const btn = document.createElement('button');
+            btn.className = 'menu-btn';
+            btn.innerHTML = `<i class="fas ${item.icon}"></i><span>${item.label}</span>`;
+            btn.title = item.codes;
+            btn.onclick = () => {
+                document.querySelectorAll('.menu-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                item.action();
+            };
+            sectionDiv.appendChild(btn);
+        });
+        
+        menu.appendChild(sectionDiv);
     });
     
-    // Auto-click primer botón
-    if (menu.firstChild?.firstChild) {
-        menu.firstChild.firstChild.click();
-    }
+    setTimeout(() => {
+        const firstBtn = menu.querySelector('.menu-btn');
+        if (firstBtn) firstBtn.click();
+    }, 100);
 }
 
 // ==================== API DNI ====================
@@ -186,14 +232,13 @@ async function consultarDNI(dni) {
     }
 }
 
-// ==================== ENTER PARA LOGIN ====================
+// ==================== EVENTOS ====================
 document.addEventListener('keypress', (e) => {
     if (e.key === 'Enter' && !document.getElementById('login-view').classList.contains('hidden')) {
         login();
     }
 });
 
-// ==================== VERIFICAR SESIÓN AL CARGAR ====================
 window.addEventListener('load', async () => {
     try {
         const session = await fetchAPI('/session');
@@ -206,7 +251,5 @@ window.addEventListener('load', async () => {
             document.getElementById('app-view').style.display = 'block';
             buildMenu();
         }
-    } catch (e) {
-        // No hay sesión activa
-    }
+    } catch (e) {}
 });
