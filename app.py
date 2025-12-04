@@ -9,6 +9,18 @@ from functools import wraps
 import requests
 from datetime import datetime, date, time
 
+from flask import current_app
+from datetime import datetime
+from zoneinfo import ZoneInfo  # Python 3.9+
+
+def ahora_local():
+    """
+    Devuelve la fecha y hora actuales en la zona horaria configurada (Perú).
+    """
+    tz_name = current_app.config.get("TIMEZONE", "America/Lima")
+    tz = ZoneInfo(tz_name)
+    return datetime.now(tz)
+
 app = Flask(__name__)
 app.config.from_object(Config)
 CORS(app, supports_credentials=True)
@@ -158,7 +170,7 @@ def gestion_reservas():
         # Validar que no sea fecha pasada
         fecha_reserva = datetime.strptime(data['fecha'], '%Y-%m-%d').date()
         hora_reserva = datetime.strptime(data['hora'], '%H:%M').time()
-        ahora = datetime.now()
+        ahora = ahora_local()  # ahora viene en America/Lima, no en UTC
         hoy = ahora.date()
 
         if fecha_reserva > hoy:
