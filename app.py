@@ -4,15 +4,10 @@ from config import Config
 from models import db, Cliente, Mesa, Reserva, Comanda, DetalleComanda, Menu, Cuenta, Comprobante, Boleta, Factura
 from sqlalchemy.orm import joinedload
 from sqlalchemy import and_
-from datetime import datetime, date, time as dt_time
+from datetime import datetime, date
 from functools import wraps
-import os
-import time  # módulo time del sistema (para tzset)
 import requests
-
-# Configurar zona horaria del proceso (Render usa UTC por defecto)
-os.environ["TZ"] = Config.TIMEZONE  # en config.py tienes TIMEZONE = 'America/Lima'
-time.tzset()
+from datetime import datetime, date, time
 
 app = Flask(__name__)
 app.config.from_object(Config)
@@ -143,8 +138,8 @@ def consultar_disponibilidad():
     } for m in query.all()])
 
 # ==================== HUO03-HUO08: RESERVAS ====================
-HORA_APERTURA = dt_time(11, 0)  # 11:00 AM
-HORA_CIERRE = dt_time(0, 0)    # 10:00 PM
+HORA_APERTURA = time(11, 0)  # 11:00 AM
+HORA_CIERRE = time(22, 0)     # 10:00 PM
 
 @app.route('/api/reservas', methods=['GET', 'POST'])
 @login_required
