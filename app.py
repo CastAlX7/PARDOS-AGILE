@@ -4,31 +4,15 @@ from config import Config
 from models import db, Cliente, Mesa, Reserva, Comanda, DetalleComanda, Menu, Cuenta, Comprobante, Boleta, Factura
 from sqlalchemy.orm import joinedload
 from sqlalchemy import and_
-from datetime import datetime, date
+from datetime import datetime, date, time as dt_time
 from functools import wraps
-import requests
-from datetime import datetime, date, time
-
-from flask import current_app
-from datetime import datetime
-from zoneinfo import ZoneInfo  # Python 3.9+
-
 import os
-import time
-from config import Config
+import time  # módulo time del sistema (para tzset)
+import requests
 
-# Fija la zona horaria del proceso a América/Lima
-os.environ['TZ'] = Config.TIMEZONE  # 'America/Lima'
+# Configurar zona horaria del proceso (Render usa UTC por defecto)
+os.environ["TZ"] = Config.TIMEZONE  # en config.py tienes TIMEZONE = 'America/Lima'
 time.tzset()
-
-
-def ahora_local():
-    """
-    Devuelve la fecha y hora actuales en la zona horaria configurada (Perú).
-    """
-    tz_name = current_app.config.get("TIMEZONE", "America/Lima")
-    tz = ZoneInfo(tz_name)
-    return datetime.now(tz)
 
 app = Flask(__name__)
 app.config.from_object(Config)
@@ -159,8 +143,8 @@ def consultar_disponibilidad():
     } for m in query.all()])
 
 # ==================== HUO03-HUO08: RESERVAS ====================
-HORA_APERTURA = time(11, 0)  # 11:00 AM
-HORA_CIERRE = time(22, 0)     # 10:00 PM
+HORA_APERTURA = dt_time(11, 0)  # 11:00 AM
+HORA_CIERRE = dt_time(24, 0)    # 10:00 PM
 
 @app.route('/api/reservas', methods=['GET', 'POST'])
 @login_required
@@ -179,7 +163,7 @@ def gestion_reservas():
         # Validar que no sea fecha pasada
         fecha_reserva = datetime.strptime(data['fecha'], '%Y-%m-%d').date()
         hora_reserva = datetime.strptime(data['hora'], '%H:%M').time()
-        ahora = ahora_local()  # ahora viene en America/Lima, no en UTC
+        ahora = datetime.now()
         hoy = ahora.date()
 
         if fecha_reserva > hoy:
