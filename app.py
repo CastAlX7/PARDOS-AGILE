@@ -144,7 +144,7 @@ def consultar_disponibilidad():
 
 # ==================== HUO03-HUO08: RESERVAS ====================
 HORA_APERTURA = dt_time(11, 0)  # 11:00 AM
-HORA_CIERRE = dt_time(24, 0)    # 10:00 PM
+HORA_CIERRE = dt_time(0, 0)    # 10:00 PM
 
 @app.route('/api/reservas', methods=['GET', 'POST'])
 @login_required
