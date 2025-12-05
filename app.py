@@ -13,6 +13,15 @@ from flask import current_app
 from datetime import datetime
 from zoneinfo import ZoneInfo  # Python 3.9+
 
+import os
+import time
+from config import Config
+
+# Fija la zona horaria del proceso a América/Lima
+os.environ['TZ'] = Config.TIMEZONE  # 'America/Lima'
+time.tzset()
+
+
 def ahora_local():
     """
     Devuelve la fecha y hora actuales en la zona horaria configurada (Perú).
